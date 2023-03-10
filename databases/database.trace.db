@@ -1,0 +1,9 @@
+2023-03-05 10:16:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MOVE" not found (this database is empty); SQL statement:
+select m1_0.name,m1_0.description,m1_0.energy,t1_0.move_name,t1_0.types from move m1_0 left join move_types t1_0 on m1_0.name=t1_0.move_name where m1_0.name=? [42104-214]
+2023-03-05 10:18:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MOVE" not found (this database is empty); SQL statement:
+select m1_0.name,m1_0.description,m1_0.energy,t1_0.move_name,t1_0.types from move m1_0 left join move_types t1_0 on m1_0.name=t1_0.move_name where m1_0.name=? [42104-214]
+2023-03-05 11:32:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "'When this Dude enters play, roll a 6-sided die. If 6, each of its stats are inc... (317)"; SQL statement:
+insert into trait (description, name) values (?, ?) [22001-214]

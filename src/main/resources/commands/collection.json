@@ -1,0 +1,84 @@
+{
+  "name": "collection",
+  "description": "Displays the info about your collections.",
+  "options": [
+    {
+      "name": "dudes",
+      "description": "Displays your collection of dudes.",
+      "type": 1,
+      "options": [
+        {
+          "name": "ordering",
+          "description": "How to order your dudes.",
+          "type": 3,
+          "required": false,
+          "choices": [
+            {
+              "name": "acquisition",
+              "value": "Collected"
+            },
+            {
+              "name": "alphabetically",
+              "value": "Alphabetical"
+            },
+            {
+              "name": "id number",
+              "value": "Id"
+            },
+            {
+              "name": "types",
+              "value": "Type"
+            }
+          ]
+        },
+        {
+          "name": "reverse",
+          "description": "Whether to reverse the order of the collection.",
+          "type": 5,
+          "required": false
+        },
+        {
+          "name": "user",
+          "description": "The user whose collection you want to see. Default to yours.",
+          "type": 6,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "items",
+      "description": "Displays your collection of items.",
+      "type": 1,
+      "options": [
+        {
+          "name": "ordering",
+          "description": "How to order your items.",
+          "type": 3,
+          "required": false,
+          "choices": [
+            {
+              "name": "acquisition",
+              "value": "Collected"
+            },
+            {
+              "name": "alphabetically",
+              "value": "Alphabetical"
+            }
+          ]
+        },
+        {
+          "name": "reverse",
+          "description": "Whether to reverse the order of the collection.",
+          "type": 5,
+          "required": false
+        },
+        {
+          "name": "user",
+          "description": "The user whose collection you want to see. Default to yours.",
+          "type": 6,
+          "required": false
+        }
+      ]
+    }
+  ]
+}
