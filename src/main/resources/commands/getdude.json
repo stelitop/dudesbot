@@ -1,6 +1,6 @@
 {
   "name": "dude",
-  "description": "Gets information about a dude.",
+  "description": "Display a given Dude's info.",
   "options": [
     {
       "name": "name",

@@ -1,0 +1,12 @@
+{
+  "name": "istoggled",
+  "description": "Check whether or not a given user is currently opted in to the game.",
+  "options": [
+    {
+      "name": "user",
+      "description": "The user you want to check.",
+      "type": 6,
+      "required": true
+    }
+  ]
+}

@@ -1,13 +1,9 @@
 package stelitop.dudesbot.database;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import stelitop.dudesbot.database.repositories.DudeRepository;
-import stelitop.dudesbot.database.repositories.MoveRepository;
-import stelitop.dudesbot.database.repositories.TraitsRepository;
 import stelitop.dudesbot.database.services.DudeService;
 import stelitop.dudesbot.database.services.ItemService;
 import stelitop.dudesbot.game.entities.Dude;
@@ -29,6 +25,9 @@ public class HardcodedAdder implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+
+        //var x =dudeService.getDude(3);
+        //System.out.println(x.get().getFlavourText());
         addDudes();
         addItems();
     }

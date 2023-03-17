@@ -162,10 +162,13 @@ public class Dude implements Comparable<Dude> {
      * @return Formatted ID.
      */
     public String getFormattedId() {
-        String ret = "#";
-        if (this.getId() < 10) ret += "0";
-        if (this.getId() < 100) ret += "0";
-        return ret + this.getId();
+        long x = this.getId();
+        String ret = "";
+        for (int i = 0; i < 3; i++) {
+            ret = (x % 10) + ret;
+            x /= 10;
+        }
+        return "#" + ret;
     }
 
     @Override

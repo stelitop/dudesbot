@@ -4,7 +4,7 @@
   "options": [
     {
       "name": "dudes",
-      "description": "Displays your collection of dudes.",
+      "description": "Display your current collection of Dudes.",
       "type": 1,
       "options": [
         {
@@ -47,7 +47,7 @@
     },
     {
       "name": "items",
-      "description": "Displays your collection of items.",
+      "description": "Display your current collection of items.",
       "type": 1,
       "options": [
         {
