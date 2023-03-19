@@ -5,11 +5,10 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.core.spec.EmbedCreateSpec;
-import discord4j.core.spec.MessageCreateSpec;
-import discord4j.rest.util.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.env.Environment;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -27,7 +26,6 @@ import stelitop.dudesbot.game.enums.Rarity;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -48,6 +46,8 @@ public class DropsMessageListener implements ApplicationRunner {
     private EmojiUtils emojiUtils;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private Environment environment;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -62,35 +62,34 @@ public class DropsMessageListener implements ApplicationRunner {
                 return Mono.empty();
             }
 
-            // check if it has been 20 seconds since the last msg
-//            Date lastMsg = profile.getLastMessage();
-//            if (lastMsg == null || Instant.now().toEpochMilli() - lastMsg.toInstant().toEpochMilli() < 20*1000) {
-//                return Mono.empty();
-//            }
+            boolean devmode = Boolean.parseBoolean(environment.getProperty("devmode"));
 
-            // check if the channel is accessible
-            // TODO change it when there is a dedicated channel
-            var channel = event.getMessage().getChannel().block();
-            if (channel == null) {
-                return Mono.empty();
+            // check if it has been 20 seconds since the last msg
+            if (!devmode) {
+                Date lastMsg = profile.getLastMessage();
+                if (lastMsg == null || Instant.now().toEpochMilli() - lastMsg.toInstant().toEpochMilli() < 20 * 1000) {
+                    return Mono.empty();
+                }
             }
 
             // update the timestamp
             profile.setLastMessage(Date.from(Instant.now()));
-
-            var result = rollForDude(profile, channel);
+            var dmChannel = event.getMember().get().getPrivateChannel().block();
+            long channelId = event.getMessage().getChannel().block().getId().asLong();
+            var result = rollForDude(profile, channelId, dmChannel);
             if (result == null) {
-                result = rollForItem(profile, channel);
+                result = rollForItem(profile, channelId, dmChannel);
             }
             userProfileService.saveUserProfile(profile);
             return result == null ? Mono.empty() : result;
         }).subscribe();
     }
 
-    private Mono<Message> rollForDude(UserProfile profile, MessageChannel channel) {
+    private Mono<Message> rollForDude(UserProfile profile, long originalChannlId, MessageChannel notificationChannel) {
 
-        //if (random.nextInt(100) != 0) {
-        if (random.nextInt(3) != 0) {
+        boolean devmode = Boolean.parseBoolean(environment.getProperty("devmode"));
+
+        if ((devmode && random.nextInt(3) != 0) || (!devmode && random.nextInt(100) != 0)) {
             return null;
         }
 
@@ -113,6 +112,7 @@ public class DropsMessageListener implements ApplicationRunner {
                 .filter(x -> !ownedDudes.contains(x.getName()))
                 .filter(x -> x.getPreviousEvolutions() == null || x.getPreviousEvolutions().isEmpty() ||
                         x.getPreviousEvolutions().stream().anyMatch(ownedDudes::contains))
+                .filter(x -> x.getLocations().isEmpty() || x.getLocations().contains(originalChannlId) || devmode)
                 .toList();
         if (possibleDudes.isEmpty()) {
             return Mono.empty();
@@ -121,7 +121,7 @@ public class DropsMessageListener implements ApplicationRunner {
         // pick and add the dude
         Dude newDude = possibleDudes.get(random.nextInt(possibleDudes.size()));
         profile.getOwnedDudes().add(newDude);
-        return channel.createMessage(EmbedCreateSpec.builder()
+        return notificationChannel.createMessage(EmbedCreateSpec.builder()
                 .title("You found a Dude!")
                 .description(newDude.getName() + " has been added to your collection.")
                 .thumbnail(newDude.getArtLink())
@@ -129,10 +129,11 @@ public class DropsMessageListener implements ApplicationRunner {
                 .build());
     }
 
-    private Mono<Message> rollForItem(UserProfile profile, MessageChannel channel) {
+    private Mono<Message> rollForItem(UserProfile profile, long originalChannlId, MessageChannel notificationChannel) {
 
-        //if (random.nextInt(250) != 0) {
-        if (random.nextInt(6) != 0) {
+        boolean devmode = Boolean.parseBoolean(environment.getProperty("devmode"));
+
+        if ((devmode && random.nextInt(6) != 0) || (!devmode && random.nextInt(250) != 0)) {
             return null;
         }
 
@@ -153,6 +154,7 @@ public class DropsMessageListener implements ApplicationRunner {
         // TODO check if it's the correct channel
         possibleItems = possibleItems.stream()
                 .filter(x -> !ownedItems.contains(x.getName()))
+                .filter(x -> x.getLocations().isEmpty() || x.getLocations().contains(originalChannlId) || devmode)
                 .toList();
         if (possibleItems.isEmpty()) {
             return Mono.empty();
@@ -161,7 +163,8 @@ public class DropsMessageListener implements ApplicationRunner {
         // pick and add the item
         Item newItem = possibleItems.get(random.nextInt(possibleItems.size()));
         profile.getOwnedItems().add(newItem);
-        return channel.createMessage(EmbedCreateSpec.builder()
+
+        return notificationChannel.createMessage(EmbedCreateSpec.builder()
                 .title("You found an item!")
                 .description(newItem.getName() + " has been added to your collection.")
                 .color(emojiUtils.getColor(ElementalType.Neutral))

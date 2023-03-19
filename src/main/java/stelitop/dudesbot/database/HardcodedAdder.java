@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import stelitop.dudesbot.database.services.DudeService;
 import stelitop.dudesbot.database.services.ItemService;
+import stelitop.dudesbot.discord.enums.DiscordChannels;
 import stelitop.dudesbot.game.entities.Dude;
 import stelitop.dudesbot.game.entities.Item;
 import stelitop.dudesbot.game.entities.Move;
@@ -57,7 +58,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .energy(1)
                         .build()))
                 .rarity(Rarity.Common)
-                //.appearanceChannel(568918716109291571L)
+                .flavorText("Looks like a rock.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -91,6 +93,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .build()
                         ))
                 .rarity(Rarity.Rare)
+                .flavorText("Looks like two rocks.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -128,6 +132,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .build()
                 ))
                 .rarity(Rarity.Epic)
+                .flavorText("Looks like three rocks.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -154,6 +160,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .energy(1)
                         .build()))
                 .rarity(Rarity.Common)
+                .flavorText("Looks like a water droplet.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -187,6 +195,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .build()
                 ))
                 .rarity(Rarity.Rare)
+                .flavorText("Looks like two water droplets.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -224,6 +234,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .build()
                 ))
                 .rarity(Rarity.Epic)
+                .flavorText("Looks like three water droplets.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
 
@@ -251,6 +263,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .energy(1)
                         .build()))
                 .rarity(Rarity.Common)
+                .flavorText("Looks like a cloud.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -284,6 +298,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .build()
                 ))
                 .rarity(Rarity.Rare)
+                .flavorText("Looks like two clouds.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -321,6 +337,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .build()
                 ))
                 .rarity(Rarity.Epic)
+                .flavorText("Looks like three clouds.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
 
@@ -348,6 +366,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .energy(1)
                         .build()))
                 .rarity(Rarity.Common)
+                .flavorText("Looks like a flame.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -381,6 +401,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .build()
                 ))
                 .rarity(Rarity.Rare)
+                .flavorText("Looks like two flames.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -418,6 +440,8 @@ public class HardcodedAdder implements ApplicationRunner {
                         .build()
                 ))
                 .rarity(Rarity.Epic)
+                .flavorText("Looks like three flames.")
+                .location(DiscordChannels.GENERAL)
                 .build());
 
 
@@ -428,6 +452,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Pink")
                 .artLink("https://i.imgur.com/xAUYutJ.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.HAPPINESS)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -437,6 +462,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Samswise")
                 .artLink("https://i.imgur.com/yG7WFgv.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.ROGUELIKES)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -446,6 +472,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Pink")
                 .artLink("https://i.imgur.com/TrpAgCJ.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.MEMES)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -456,6 +483,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Kittenguin")
                 .artLink("https://i.imgur.com/eDavB6g.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.SHOOTERS)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -465,6 +493,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Empi")
                 .artLink("https://i.imgur.com/r9MBEVo.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.FOOD)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -474,6 +503,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Kittenguin")
                 .artLink("https://i.imgur.com/gRqgrpX.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.FOOD)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -483,6 +513,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Kittenguin")
                 .artLink("https://i.imgur.com/LvFANIP.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -492,6 +523,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Empi")
                 .artLink("https://i.imgur.com/YCpD9Jq.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.PUZZLES)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -501,6 +533,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Empi")
                 .artLink("https://i.imgur.com/uubLF9a.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.THINKTANK)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -510,6 +543,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Muhframos")
                 .artLink("https://i.imgur.com/3xtcsUi.png")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.ART)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -519,6 +553,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Muhframos")
                 .artLink("https://i.imgur.com/BXFTQEz.png")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.ART)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -528,6 +563,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Muhframos")
                 .artLink("https://i.imgur.com/VmFe9RI.png")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.ART)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -537,6 +573,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Muhframos")
                 .artLink("https://i.imgur.com/sP3CHJI.png")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.ART)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -560,6 +597,7 @@ public class HardcodedAdder implements ApplicationRunner {
                         .types(List.of(ElementalType.Neutral))
                         .energy(1)
                         .build()))
+                .location(DiscordChannels.VOICELESS)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -571,6 +609,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .artistName("Pink")
                 .artLink("https://i.imgur.com/eFibq8d.png")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.MEDIA)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -588,6 +627,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Rare)
                 .artistName("Pircival")
                 .artLink("https://i.imgur.com/jrp9tsP.png")
+                .location(DiscordChannels.VENTING)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -604,6 +644,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Rare)
                 .artistName("Pircival")
                 .artLink("https://i.imgur.com/imc2Njd.png")
+                .location(DiscordChannels.POLITICS)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -621,6 +662,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Rare)
                 .artistName("Pircival")
                 .artLink("https://i.imgur.com/I3rn7Pj.png")
+                .location(DiscordChannels.ANONYMOUS)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -638,6 +680,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Rare)
                 .artistName("Pircival")
                 .artLink("https://i.imgur.com/vp8wyDn.png")
+                .location(DiscordChannels.SUGGESTION)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -655,6 +698,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Legendary)
                 .artistName("Pircival")
                 .artLink("https://i.imgur.com/dfHnskV.png")
+                .location(DiscordChannels.ANIME)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -668,6 +712,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Rare)
                 .artistName("Pircival")
                 .artLink("https://i.imgur.com/JmpMR5b.png")
+                .location(DiscordChannels.SHOOTERS)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -688,6 +733,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Common)
                 .artistName("Flippz")
                 .artLink("https://i.imgur.com/l1sM3jQ.png")
+                .location(DiscordChannels.MEDIA)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -708,6 +754,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Rare)
                 .artistName("Flippz")
                 .artLink("https://i.imgur.com/CHe19mZ.png")
+                .location(DiscordChannels.MEDIA)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -728,6 +775,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Common)
                 .artistName("Flippz")
                 .artLink("https://i.imgur.com/QoladQx.png")
+                .location(DiscordChannels.HEARTHSTONE)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -748,6 +796,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Rare)
                 .artistName("Flippz")
                 .artLink("https://i.imgur.com/ui9xyM3.png")
+                .location(DiscordChannels.HEARTHSTONE)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -768,6 +817,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Common)
                 .artistName("Flippz")
                 .artLink("https://i.imgur.com/Ul1hsxw.png")
+                .location(DiscordChannels.PETS)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -789,6 +839,7 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Rare)
                 .artistName("Flippz")
                 .artLink("https://i.imgur.com/nsfU5kC.png")
+                .location(DiscordChannels.PETS)
                 .build());
 
         dudeService.saveDudeWithMovesAndTraits(Dude.builder()
@@ -809,6 +860,57 @@ public class HardcodedAdder implements ApplicationRunner {
                 .rarity(Rarity.Epic)
                 .artistName("Flippz")
                 .artLink("https://i.imgur.com/G1OKmug.png")
+                .location(DiscordChannels.PETS)
+                .build());
+
+        dudeService.saveDudeWithMovesAndTraits(Dude.builder()
+                .name("Rainbowl")
+                .stage(1)
+                .type(ElementalType.Water)
+                .type(ElementalType.Magic)
+                .resistance(ElementalType.Air)
+                .weakness(ElementalType.Decay)
+                .rarity(Rarity.Epic)
+                .artLink("https://i.imgur.com/ZBE0yFC.png")
+                .artistName("Pircival")
+                .location(DiscordChannels.LGBT)
+                .build());
+
+        dudeService.saveDudeWithMovesAndTraits(Dude.builder()
+                .name("Rumple")
+                .stage(1)
+                .type(ElementalType.Neutral)
+                .resistance(ElementalType.Water)
+                .weakness(ElementalType.Air)
+                .rarity(Rarity.Common)
+                .artistName("Pircival")
+                .artLink("https://i.imgur.com/Bc4n20e.png")
+                .location(DiscordChannels.MEMES)
+                .build());
+
+        dudeService.saveDudeWithMovesAndTraits(Dude.builder()
+                .name("Flamebush")
+                .stage(1)
+                .type(ElementalType.Nature)
+                .type(ElementalType.Fire)
+                .resistance(ElementalType.Air)
+                .weakness(ElementalType.Magic)
+                .rarity(Rarity.Common)
+                .artLink("https://i.imgur.com/VtwVhcB.png")
+                .artistName("Pircival")
+                .location(DiscordChannels.MINECRAFT)
+                .build());
+
+        dudeService.saveDudeWithMovesAndTraits(Dude.builder()
+                .name("Zaprat")
+                .stage(1)
+                .type(ElementalType.Fire)
+                .resistance(ElementalType.Water)
+                .weakness(ElementalType.Earth)
+                .rarity(Rarity.Rare)
+                .artistName("Scorp")
+                .artLink("https://i.imgur.com/WshbOEZ.png")
+                .location(DiscordChannels.POKEMON)
                 .build());
     }
 
@@ -817,66 +919,79 @@ public class HardcodedAdder implements ApplicationRunner {
                 .name("Invisible Hamburger")
                 .text("Does nothing.")
                 .rarity(Rarity.Common)
+                .location(DiscordChannels.FOOD)
+                .flavorText("Woah, this is worthless!")
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Chili Pepper")
                 .text("When a Dude holding this is damaged and falls below half of its maximum Health, discard this item, increase the Dude's Offense by 50, and give the Dude a FIRE Resistance. If the Dude has a FIRE Weakness, remove it.")
                 .rarity(Rarity.Epic)
+                .location(DiscordChannels.FOOD)
+                .flavorText("It's the show with hot questions and even hotter wings.")
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Brown Pearl")
                 .text("While a NEUTRAL Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Yellow Pearl")
                 .text("While a EARTH Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Dark Blue Pearl")
                 .text("While a WATER Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Light Blue Pearl")
                 .text("While a AIR Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Orange Pearl")
                 .text("While a FIRE Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Green Pearl")
                 .text("While a NATURE Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Black Pearl")
                 .text("While a DECAY Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Pink Pearl")
                 .text("While a MAGIC Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Gray Pearl")
                 .text("While a TECH Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
+                .location(DiscordChannels.GENERAL)
                 .build());
     }
 }

@@ -77,7 +77,7 @@ public class DudeInfoCommand implements ISlashCommand {
                 .map(move -> move.getName() + ": " + move.getDescription())
                 .collect(Collectors.joining("\n"));
 
-        var locationsMsg = dude.getAppearanceChannels().isEmpty() ? "Everywhere" : dude.getAppearanceChannels().stream()
+        var locationsMsg = dude.getLocations().isEmpty() ? "Everywhere" : dude.getLocations().stream()
                 .map(x -> "<#" + x + ">").collect(Collectors.joining(", "));
 
         var embed = EmbedCreateSpec.builder()
@@ -115,7 +115,8 @@ public class DudeInfoCommand implements ISlashCommand {
                         "\n" + emojiUtils.getEmojiString(DudeStat.Defence) + " Defense: " + dude.getDefense(),
                         false)
                 .addField("Traits", traitsMsg, false)
-                .addField("Moves", movesMsg, false)
+                .addField("Moves", movesMsg +
+                        (dude.getFlavorText() == null ? "" : "\n\n*" + dude.getFlavorText() + "*"), false)
                 .footer("Art by " + dude.getArtistName(), null);
 
         return event.reply()

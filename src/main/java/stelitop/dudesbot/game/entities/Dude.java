@@ -148,7 +148,13 @@ public class Dude implements Comparable<Dude> {
      */
     @ElementCollection(fetch = FetchType.EAGER)
     @Singular
-    private List<Long> appearanceChannels;
+    private List<Long> locations;
+
+    /**
+     * The flavor text of the dude. Has no impact on gameplay.
+     */
+    @Column
+    private String flavorText;
 
     /**
      * The users that own this dude.

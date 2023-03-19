@@ -44,6 +44,12 @@ public class Item {
     private List<Long> locations;
 
     /**
+     * The flavor text of the item. Has no impact on gameplay.
+     */
+    @Column
+    private String flavorText;
+
+    /**
      * The users that own this dude.
      */
     @ManyToMany(mappedBy = "ownedItems", fetch = FetchType.EAGER)

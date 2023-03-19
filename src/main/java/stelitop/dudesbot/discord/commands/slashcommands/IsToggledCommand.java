@@ -22,14 +22,20 @@ public class IsToggledCommand implements ISlashCommand {
 
     @Override
     public Mono<Void> handle(@NotNull ChatInputInteractionEvent event, SlashCommandOptions options) {
-        User user = options.getOption("user").get().getValue().get().asUser().block();
+        var userOption = options.getOption("user");
+        User user;
+        if (userOption.isEmpty()) {
+            user = event.getInteraction().getUser();
+        } else {
+            user = userOption.get().getValue().get().asUser().block();
+        }
         var profile = userProfileService.getUserProfile(user.getId().asLong());
         if (profile.isParticipating()) {
             return event.reply()
-                    .withContent(user.getUsername() + " has opted in for the bot.");
+                    .withContent(user.getUsername() + " is currently opted in to the game. They will randomly collect Dudes and items when sending messages in this server.");
         } else {
             return event.reply()
-                    .withContent(user.getUsername() + " has not opted in for the bot.");
+                    .withContent(user.getUsername() + " is currently opted out of the game. They will not collect Dudes or items when sending messages in this server.");
         }
     }
 }

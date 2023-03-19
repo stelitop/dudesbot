@@ -36,4 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
+# config files
 botconfig.json
+testbotconfig.json
