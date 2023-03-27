@@ -33,6 +33,7 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
     //This method will run only once on each start up and is automatically called with Spring so blocking is okay.
     @Override
     public void run(ApplicationArguments args) throws IOException {
+
         //Create an ObjectMapper that supported Discord4J classes
         final JacksonResources d4jMapper = JacksonResources.create();
 
@@ -43,7 +44,8 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
 
         //Get our commands json from resources as command data
         List<ApplicationCommandRequest> commands = new ArrayList<>();
-        for (Resource resource : matcher.getResources("commands/*.json")) {
+
+        for (Resource resource : matcher.getResources("classpath:commands/*.json")) {
             ApplicationCommandRequest request = d4jMapper.getObjectMapper()
                     .readValue(resource.getInputStream(), ApplicationCommandRequest.class);
 
@@ -55,10 +57,10 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
         */
 
         applicationService.bulkOverwriteGlobalApplicationCommand(applicationId, commands)
-                .doOnNext(ignore -> LOGGER.debug("Successfully registered Global Commands"))
+                .doOnNext(ignore -> {LOGGER.debug("Successfully registered Global Commands"); System.out.println(ignore.name() + " command registered!");})
                 .doOnError(e -> LOGGER.error("Failed to register global commands", e))
                 .subscribe();
-        loadGlobalSlashCommands();
+        //loadGlobalSlashCommands();
     }
 
     private void loadGlobalSlashCommands() {

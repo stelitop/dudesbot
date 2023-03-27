@@ -30,4 +30,5 @@ public class DiscordChannels {
     public static final long PUZZLES = 688532053586870341L;
     public static final long OTHER_GAMES = 568922382530641920L;
     public static final long VOICELESS = 596021749687123982L;
+    public static final long DUDE = 1086746221407916094L;
 }

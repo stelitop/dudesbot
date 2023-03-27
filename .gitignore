@@ -37,5 +37,5 @@ out/
 .vscode/
 
 # config files
-botconfig.json
-testbotconfig.json
+src/main/resources/botconfig.json
+src/main/resources/testbotconfig.json
