@@ -29,8 +29,8 @@ public class HardcodedAdder implements ApplicationRunner {
 
         //var x =dudeService.getDude(3);
         //System.out.println(x.get().getFlavourText());
-        addDudes();
-        addItems();
+        //addDudes();
+        //addItems();
     }
 
     private void addDudes() {
@@ -1015,6 +1015,8 @@ public class HardcodedAdder implements ApplicationRunner {
                 .text("Does nothing.")
                 .rarity(Rarity.Common)
                 .location(DiscordChannels.FOOD)
+                .location(DiscordChannels.DUDE)
+                .location(DiscordChannels.VOICELESS)
                 .flavorText("Woah, this is worthless!")
                 .build());
 
@@ -1030,63 +1032,80 @@ public class HardcodedAdder implements ApplicationRunner {
                 .name("Brown Pearl")
                 .text("While a NEUTRAL Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.HEARTHSTONE)
+                .location(DiscordChannels.DUDE)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Yellow Pearl")
                 .text("While a EARTH Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.MINECRAFT)
+                .location(DiscordChannels.DUDE)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Dark Blue Pearl")
                 .text("While a WATER Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.TTRPG)
+                .location(DiscordChannels.DUDE)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Light Blue Pearl")
                 .text("While a AIR Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.FIGHTING_GAMES)
+                .location(DiscordChannels.DUDE)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Orange Pearl")
                 .text("While a FIRE Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.SHOOTERS)
+                .location(DiscordChannels.DUDE)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Green Pearl")
                 .text("While a NATURE Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.GACHA)
+                .location(DiscordChannels.DUDE)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Black Pearl")
                 .text("While a DECAY Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.MOBA)
+                .location(DiscordChannels.DUDE)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Pink Pearl")
                 .text("While a MAGIC Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.ROGUELIKES)
+                .location(DiscordChannels.DUDE)
                 .build());
 
         itemService.saveItem(Item.builder()
                 .name("Gray Pearl")
                 .text("While a TECH Dude is holding this, all of its stats are increased by 10.")
                 .rarity(Rarity.Rare)
-                .location(DiscordChannels.GENERAL)
+                .location(DiscordChannels.PUZZLES)
+                .location(DiscordChannels.DUDE)
+                .build());
+
+        itemService.saveItem(Item.builder()
+                .name("Panel of Loss")
+                .text("When a Dude holding this enters play, it takes DECAY damage equal to its current Health.")
+                .rarity(Rarity.Epic)
+                .location(DiscordChannels.MEMES)
+                .flavorText("\\| \\|\\| \\|\\| \\|\\_")
                 .build());
     }
 }

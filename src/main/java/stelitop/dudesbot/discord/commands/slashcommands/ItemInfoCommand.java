@@ -46,7 +46,7 @@ public class ItemInfoCommand implements ISlashCommand {
                         .addField("Collection Info",
                                 "Rarity: " + item.getRarity() +
                                 "\nLocations: " + (item.getLocations().isEmpty() ? "Everywhere" :
-                                        item.getLocations().stream().map(x -> "<@" + x + ">")
+                                        item.getLocations().stream().map(x -> "<#" + x + ">")
                                                 .collect(Collectors.joining(", "))), false)
                         .addField("Effect", item.getText() +
                                 (item.getFlavorText() == null ? "" : "\n\n*" + item.getFlavorText() + "*"), false)
