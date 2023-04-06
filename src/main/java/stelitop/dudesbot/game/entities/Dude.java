@@ -21,7 +21,7 @@ import java.util.Set;
 public class Dude implements Comparable<Dude> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     /**

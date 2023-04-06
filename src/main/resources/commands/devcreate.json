@@ -1,0 +1,11 @@
+{
+  "name": "z_devcreate",
+  "description": "Group of commands for creating objects in the game. Dev only.",
+  "options": [
+    {
+      "name": "dudetemplate",
+      "description": "Creates a dude template",
+      "type": 1
+    }
+  ]
+}

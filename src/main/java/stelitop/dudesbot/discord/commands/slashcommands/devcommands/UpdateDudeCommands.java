@@ -390,7 +390,7 @@ public class UpdateDudeCommands {
             }
             var dude = dudeOpt.get();
             String stat = options.getOption("stat").get().getValue().get().asString();
-            int value = (int)options.getOption("stat").get().getValue().get().asLong();
+            int value = (int)options.getOption("value").get().getValue().get().asLong();
             if (value < 0) {
                 return event.reply("The value should be positive!")
                         .withEphemeral(true);
