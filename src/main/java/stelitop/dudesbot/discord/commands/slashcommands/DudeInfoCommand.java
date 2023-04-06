@@ -77,8 +77,11 @@ public class DudeInfoCommand implements ISlashCommand {
                 .map(move -> move.getName() + ": " + move.getDescription())
                 .collect(Collectors.joining("\n"));
 
-        var locationsMsg = dude.getLocations().isEmpty() ? "Everywhere" : dude.getLocations().stream()
-                .map(x -> "<#" + x + ">").collect(Collectors.joining(", "));
+        var locationsMsg = dude.getLocations().isEmpty() ? "Everywhere" : dude.getLocations()
+                .stream()
+                .distinct()
+                .map(x -> "<#" + x + ">")
+                .collect(Collectors.joining(", "));
 
         var embed = EmbedCreateSpec.builder()
                 .title(dude.getFormattedId() + " - " + dude.getName())
@@ -107,13 +110,13 @@ public class DudeInfoCommand implements ISlashCommand {
                                 (dude.getWeaknesses().isEmpty() ? "" : "\nWeak to " +
                                 dude.getWeaknesses().stream().map(x -> emojiUtils.getEmojiString(x) + " " + x.toString().toUpperCase())
                                         .collect(Collectors.joining(" - "))),
-                        false)
+                        true)
                 .addField("Statistics",
                         emojiUtils.getEmojiString(DudeStat.Health) + " Health: " + dude.getHealth() +
                         "\n" + emojiUtils.getEmojiString(DudeStat.Speed) + " Speed: " + dude.getSpeed() +
                         "\n" + emojiUtils.getEmojiString(DudeStat.Offense) + " Offense: " + dude.getOffense() +
                         "\n" + emojiUtils.getEmojiString(DudeStat.Defence) + " Defense: " + dude.getDefense(),
-                        false)
+                        true)
                 .addField("Traits", traitsMsg, false)
                 .addField("Moves", movesMsg +
                         (dude.getFlavorText() == null ? "" : "\n\n*" + dude.getFlavorText() + "*"), false)

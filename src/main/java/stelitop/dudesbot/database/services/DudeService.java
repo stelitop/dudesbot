@@ -9,6 +9,7 @@ import stelitop.dudesbot.game.entities.Dude;
 import stelitop.dudesbot.game.enums.Rarity;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,5 +66,25 @@ public class DudeService {
      */
     public List<Dude> getDudesOfRarity(Rarity rarity) {
         return dudeRepository.findByRarity(rarity);
+    }
+
+    /**
+     * Gets all dudes currently in the repository.
+     *
+     * @return A mutable list containing all dudes.
+     */
+    public List<Dude> getAllDudes() {
+        List<Dude> dudes = new ArrayList<>();
+        dudeRepository.findAll().forEach(dudes::add);
+        return dudes;
+    }
+
+    /**
+     * Saves a new or updated dude into the repository.
+     *
+     * @param dude Dude to save.
+     */
+    public void saveDude(Dude dude) {
+        dudeRepository.save(dude);
     }
 }

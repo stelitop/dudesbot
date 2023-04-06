@@ -1,0 +1,417 @@
+{
+  "name": "z_devupdate",
+  "description": "Group of commands for updating the game. Dev only.",
+  "options": [
+    {
+      "name": "dude",
+      "description": "Update commands for dudes.",
+      "type": 2,
+      "options": [
+        {
+          "name": "artlink",
+          "description": "Changes the art of the dude (by providing a link)",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "newlink",
+              "description": "The new art link of the dude. Note: The link is not verified to be working.",
+              "type": 3,
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "artist",
+          "description": "Changes the artist of the dude.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "artist",
+              "description": "The new artist of the dude.",
+              "type": 3,
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "description": "Adds an new elemental type to the dude if it doesn't have. Otherwise removes it.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "newtype",
+              "description": "The type to add.",
+              "type": 3,
+              "required": true,
+              "choices": [
+                {
+                  "name": "Neutral",
+                  "value": "Neutral"
+                },
+                {
+                  "name": "Earth",
+                  "value": "Earth"
+                },
+                {
+                  "name": "Water",
+                  "value": "Water"
+                },
+                {
+                  "name": "Air",
+                  "value": "Air"
+                },
+                {
+                  "name": "Fire",
+                  "value": "Fire"
+                },
+                {
+                  "name": "Nature",
+                  "value": "Nature"
+                },{
+                  "name": "Decay",
+                  "value": "Decay"
+                },
+                {
+                  "name": "Magic",
+                  "value": "Magic"
+                },
+                {
+                  "name": "Tech",
+                  "value": "Tech"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "location",
+          "description": "Adds an appearance location to the dude. If it already had it it removes it instead.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "channel",
+              "description": "The channel for the dude.",
+              "type": 7,
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "flavortext",
+          "description": "Changes the flavor text of the dude.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "flavortext",
+              "description": "The new flavor text of the dude.",
+              "type": 3,
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "name",
+          "description": "Changes the name of a dude.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "name",
+              "description": "The new name of the dude.",
+              "type": 3,
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "stage",
+          "description": "Changes the stage of a dude.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "stage",
+              "description": "The new stage of the dude.",
+              "type": 4,
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "nextevolution",
+          "description": "Changes the next evolution of a dude.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "evolution",
+              "description": "The new next evolution of the dude.",
+              "type": 3,
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "previousevolution",
+          "description": "Changes the next evolution of a dude.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "evolution",
+              "description": "The new previous evolution of the dude.",
+              "type": 3,
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "resistance",
+          "description": "Adds an new elemental resistance to the dude if it doesn't have it. Otherwise removes it.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "resistance",
+              "description": "The type to add.",
+              "type": 3,
+              "required": true,
+              "choices": [
+                {
+                  "name": "Neutral",
+                  "value": "Neutral"
+                },
+                {
+                  "name": "Earth",
+                  "value": "Earth"
+                },
+                {
+                  "name": "Water",
+                  "value": "Water"
+                },
+                {
+                  "name": "Air",
+                  "value": "Air"
+                },
+                {
+                  "name": "Fire",
+                  "value": "Fire"
+                },
+                {
+                  "name": "Nature",
+                  "value": "Nature"
+                },{
+                  "name": "Decay",
+                  "value": "Decay"
+                },
+                {
+                  "name": "Magic",
+                  "value": "Magic"
+                },
+                {
+                  "name": "Tech",
+                  "value": "Tech"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "weakness",
+          "description": "Adds an new elemental weakness to the dude if it doesn't have it. Otherwise removes it.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "weakness",
+              "description": "The weakness to add.",
+              "type": 3,
+              "required": true,
+              "choices": [
+                {
+                  "name": "Neutral",
+                  "value": "Neutral"
+                },
+                {
+                  "name": "Earth",
+                  "value": "Earth"
+                },
+                {
+                  "name": "Water",
+                  "value": "Water"
+                },
+                {
+                  "name": "Air",
+                  "value": "Air"
+                },
+                {
+                  "name": "Fire",
+                  "value": "Fire"
+                },
+                {
+                  "name": "Nature",
+                  "value": "Nature"
+                },{
+                  "name": "Decay",
+                  "value": "Decay"
+                },
+                {
+                  "name": "Magic",
+                  "value": "Magic"
+                },
+                {
+                  "name": "Tech",
+                  "value": "Tech"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rarity",
+          "description": "Changes the rarity of the dude.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "rarity",
+              "description": "The new rarity.",
+              "type": 3,
+              "required": true,
+              "choices": [
+                {
+                  "name": "Common",
+                  "value": "Common"
+                },
+                {
+                  "name": "Rare",
+                  "value": "Rare"
+                },
+                {
+                  "name": "Epic",
+                  "value": "Epic"
+                },
+                {
+                  "name": "Legendary",
+                  "value": "Legendary"
+                },
+                {
+                  "name": "Mythic",
+                  "value": "Mythic"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stat",
+          "description": "Changes one of the stats of the dude.",
+          "type": 1,
+          "options": [
+            {
+              "name": "dudeid",
+              "description": "The ID of the dude.",
+              "type": 4,
+              "required": true
+            },
+            {
+              "name": "stat",
+              "description": "The stat to change.",
+              "type": 3,
+              "required": true,
+              "choices": [
+                {
+                  "name": "Health",
+                  "value": "Health"
+                },
+                {
+                  "name": "Speed",
+                  "value": "Speed"
+                },
+                {
+                  "name": "Offense",
+                  "value": "Offense"
+                },
+                {
+                  "name": "Defence",
+                  "value": "Defence"
+                }
+              ]
+            },
+            {
+              "name": "value",
+              "description": "The new value for the stat.",
+              "type": 4,
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

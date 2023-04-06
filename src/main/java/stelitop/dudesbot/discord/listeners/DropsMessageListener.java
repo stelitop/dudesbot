@@ -1,5 +1,6 @@
 package stelitop.dudesbot.discord.listeners;
 
+import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
@@ -48,15 +49,13 @@ public class DropsMessageListener implements ApplicationRunner {
     @Autowired
     private DudeService dudeService;
     @Autowired
-    private DudeRepository dudeRepository;
-    @Autowired
     private EmojiUtils emojiUtils;
     @Autowired
     private ItemService itemService;
     @Autowired
-    private ItemRepository itemRepository;
-    @Autowired
     private Environment environment;
+    @Autowired
+    private GatewayDiscordClient gatewayDiscordClient;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -113,7 +112,7 @@ public class DropsMessageListener implements ApplicationRunner {
                 .map(Dude::getName)
                 .collect(Collectors.toSet());
 
-        List<Dude> possibleDudes = StreamSupport.stream(dudeRepository.findAll().spliterator(), false)
+        List<Dude> possibleDudes = dudeService.getAllDudes().stream()
                 .filter(x -> !ownedDudes.contains(x.getName()))
                 .filter(x -> x.getPreviousEvolutions() == null || x.getPreviousEvolutions().isEmpty() ||
                         x.getPreviousEvolutions().stream().anyMatch(ownedDudes::contains))
@@ -138,8 +137,9 @@ public class DropsMessageListener implements ApplicationRunner {
         // pick and add the dude
         Dude newDude = possibleDudes.get(random.nextInt(possibleDudes.size()));
         profile.getOwnedDudes().add(newDude);
+        String username = gatewayDiscordClient.getUserById(Snowflake.of(profile.getDiscordId())).block().getUsername();
         return notificationChannel.createMessage(EmbedCreateSpec.builder()
-                .title("You found a Dude!")
+                .title(username + " found a Dude!")
                 .description(newDude.getName() + " has been added to your collection.")
                 .thumbnail(newDude.getArtLink())
                 .color(emojiUtils.getColor(ElementalType.Neutral))
@@ -159,7 +159,7 @@ public class DropsMessageListener implements ApplicationRunner {
                 .map(Item::getName)
                 .collect(Collectors.toSet());
 
-        List<Item> possibleItems = StreamSupport.stream(itemRepository.findAll().spliterator(), false)
+        List<Item> possibleItems = itemService.getAllItems().stream()
                 .filter(x -> !ownedItems.contains(x.getName()))
                 .filter(x -> x.getLocations().isEmpty() || x.getLocations().contains(originalChannelId) || devmode)
                 .toList();
@@ -182,8 +182,9 @@ public class DropsMessageListener implements ApplicationRunner {
         // pick and add the item
         Item newItem = possibleItems.get(random.nextInt(possibleItems.size()));
         profile.getOwnedItems().add(newItem);
+        String username = gatewayDiscordClient.getUserById(Snowflake.of(profile.getDiscordId())).block().getUsername();
         return notificationChannel.createMessage(EmbedCreateSpec.builder()
-                .title("You found an item!")
+                .title(username + " found an item!")
                 .description(newItem.getName() + " has been added to your collection.")
                 .color(emojiUtils.getColor(ElementalType.Neutral))
                 .build());

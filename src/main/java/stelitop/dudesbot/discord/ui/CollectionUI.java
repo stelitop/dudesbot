@@ -15,12 +15,12 @@ public class CollectionUI {
     @Getter
     private long creatorId;
 
-    /**
-     * The id of the person whose collection is being shown. May be different
-     * from the person who created the UI.
-     */
-    @Getter
-    private String collectionOwnerUsername;
+//    /**
+//     * The id of the person whose collection is being shown. May be different
+//     * from the person who created the UI.
+//     */
+//    @Getter
+//    private String collectionOwnerUsername;
 
     /**
      * The entries to be displayed in the given order.
@@ -42,12 +42,18 @@ public class CollectionUI {
     @Builder.Default
     private int pageSize = 15;
 
+//    /**
+//     * The "subject" of the collection aka what's being collected.
+//     * Dudes, items etc.
+//     */
+//    @Getter
+//    private String collectionSubject;
+
     /**
-     * The "subject" of the collection aka what's being collected.
-     * Dudes, items etc.
+     * The title of the ui.
      */
     @Getter
-    private String collectionSubject;
+    private String uiTitle;
 
     private void fixPageInRange() {
         if (currentPage < 1) currentPage = 1;

@@ -17,6 +17,7 @@ import stelitop.dudesbot.discord.commands.slashcommands.SlashCommandOptions;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class SlashCommandListener implements ApplicationRunner {
@@ -43,6 +44,19 @@ public class SlashCommandListener implements ApplicationRunner {
         ISlashCommand matchCommand = null;
         List<ApplicationCommandInteractionOption> commandOptions = null;
 
+        if (event.getCommandName().startsWith("dev")) {
+            long userId = event.getInteraction().getUser().getId().asLong();
+            // TODO Move this to a separate class
+            Set<Long> adminIds = Set.of(
+                    237264833433567233L,
+                    143170928623353856L
+            );
+            if (!adminIds.contains(userId)) {
+                return event.reply("You are not authorised to use this command!")
+                        .withEphemeral(true);
+            }
+        }
+
         for (var command : commands) {
             var names = command.getNames();
             if (names.length == 0) continue; // invalid command names
@@ -59,7 +73,7 @@ public class SlashCommandListener implements ApplicationRunner {
                     }
                 }
                 else {
-                    if (options.isEmpty() || options.get(0).getType() == ApplicationCommandOption.Type.SUB_COMMAND_GROUP || !options.get(0).getName().equals(names[i])) {
+                    if (options.isEmpty() || options.get(0).getType() != ApplicationCommandOption.Type.SUB_COMMAND_GROUP || !options.get(0).getName().equals(names[i])) {
                         match = false;
                         break;
                     }

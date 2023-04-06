@@ -6,6 +6,9 @@ import org.springframework.validation.annotation.Validated;
 import stelitop.dudesbot.game.entities.UserProfile;
 import stelitop.dudesbot.database.repositories.UserProfileRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Validated
 public class UserProfileService {
@@ -47,5 +50,16 @@ public class UserProfileService {
      */
     public long getUserProfileCount() {
         return userRepository.count();
+    }
+
+    /**
+     * Retrieves a list of all user profiles in the database.
+     *
+     * @return List of user profiles.
+     */
+    public List<UserProfile> getAllUserProfiles() {
+        List<UserProfile> ret = new ArrayList<>();
+        userRepository.findAll().forEach(ret::add);
+        return ret;
     }
 }

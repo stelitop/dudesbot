@@ -10,6 +10,7 @@ import stelitop.dudesbot.game.entities.Dude;
 import stelitop.dudesbot.game.entities.Item;
 import stelitop.dudesbot.game.enums.Rarity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,5 +50,16 @@ public class ItemService {
      */
     public List<Item> getItemsOfRarity(Rarity rarity) {
         return itemRepository.findByRarity(rarity);
+    }
+
+    /**
+     * Gets all items currently in the repository.
+     *
+     * @return A mutable list containing all items.
+     */
+    public List<Item> getAllItems() {
+        List<Item> items = new ArrayList<>();
+        itemRepository.findAll().forEach(items::add);
+        return items;
     }
 }

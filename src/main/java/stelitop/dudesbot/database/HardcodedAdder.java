@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import stelitop.dudesbot.database.repositories.DudeRepository;
 import stelitop.dudesbot.database.services.DudeService;
 import stelitop.dudesbot.database.services.ItemService;
 import stelitop.dudesbot.discord.enums.DiscordChannels;
@@ -23,10 +24,11 @@ public class HardcodedAdder implements ApplicationRunner {
     private DudeService dudeService;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private DudeRepository dudeRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
         //var x =dudeService.getDude(3);
         //System.out.println(x.get().getFlavourText());
         //addDudes();

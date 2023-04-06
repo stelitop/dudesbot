@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+import stelitop.dudesbot.database.services.DudeService;
 import stelitop.dudesbot.database.services.UserProfileService;
 import stelitop.dudesbot.discord.listeners.IActionComponentListener;
 import stelitop.dudesbot.discord.ui.CollectionUI;
@@ -21,10 +22,12 @@ import stelitop.dudesbot.discord.ui.CollectionUIManager;
 import stelitop.dudesbot.discord.utils.EmojiUtils;
 import stelitop.dudesbot.game.entities.Dude;
 import stelitop.dudesbot.game.entities.Item;
+import stelitop.dudesbot.game.entities.UserProfile;
 import stelitop.dudesbot.game.enums.ElementalType;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -67,9 +70,9 @@ public class CollectionCommands {
         var ui = uiOpt.get();
 
         var embed = EmbedCreateSpec.builder()
-                .title(ui.getCollectionOwnerUsername() + "'s " + ui.getCollectionSubject())
+                .title(ui.getUiTitle())
                 .color(emojiUtils.getColor(ElementalType.Neutral))
-                .description("Owned: " + ui.getEntries().size() + "\n\n" +
+                .description("Total: " + ui.getEntries().size() + "\n\n" +
                         String.join("\n", ui.getEntriesAtCurrentPage()) +
                         "\n\nPage " + ui.getCurrentPage() + "/" + ui.getTotalPages())
                 .build();
@@ -83,6 +86,9 @@ public class CollectionCommands {
                 .build()).block();
     }
 
+    /**
+     * Slash command for creating a dude collection menu.
+     */
     @Component
     public class DudeCollectionCommand implements ISlashCommand {
 
@@ -137,8 +143,7 @@ public class CollectionCommands {
             Message message = event.getReply().block();
             collectionUIManager.saveUI(message.getId().asLong(), CollectionUI.builder()
                     .creatorId(event.getInteraction().getUser().getId().asLong())
-                    .collectionOwnerUsername(user.getUsername())
-                    .collectionSubject("Dudes")
+                    .uiTitle(user.getUsername() + "'s Dudes")
                     .entries(dudes.stream()
                             .map(x -> x.getFormattedId() + " - " + x.getName() + " " + x.getTypes().stream()
                                     .map(emojiUtils::getEmojiString)
@@ -200,8 +205,7 @@ public class CollectionCommands {
             Message message = event.getReply().block();
             collectionUIManager.saveUI(message.getId().asLong(), CollectionUI.builder()
                     .creatorId(event.getInteraction().getUser().getId().asLong())
-                    .collectionOwnerUsername(user.getUsername())
-                    .collectionSubject("Items")
+                    .uiTitle(user.getUsername() + "'s Items")
                     .entries(items.stream()
                             .map(x -> x.getName() + " - " + x.getText())
                             .toList())
@@ -212,6 +216,9 @@ public class CollectionCommands {
         }
     }
 
+    /**
+     * Component listener for the previous page button of collection UIs
+     */
     @Component
     public class PreviousPageButton implements IActionComponentListener<ButtonInteractionEvent> {
 
@@ -245,6 +252,9 @@ public class CollectionCommands {
         }
     }
 
+    /**
+     * Component listener for the next page button of collection UIs
+     */
     @Component
     public class NextPageButton implements IActionComponentListener<ButtonInteractionEvent> {
 
@@ -274,6 +284,88 @@ public class CollectionCommands {
             ui.nextPage();
             event.deferEdit().block();
             updateUserUI(msg);
+            return Mono.empty();
+        }
+    }
+
+    /**
+     * Slash command for creating a dudedex menu.
+     */
+    @Component
+    public class DudedexCommand implements ISlashCommand {
+
+        @Autowired
+        private DudeService dudeService;
+
+        @Override
+        public String[] getNames() {
+            return new String[]{"dudedex"};
+        }
+
+        @Override
+        public Mono<Void> handle(@NotNull ChatInputInteractionEvent event, SlashCommandOptions options) {
+
+            List<Dude> dudes = dudeService.getAllDudes();
+
+            var channelOpt = options.getOption("channel");
+            if (channelOpt.isPresent()) {
+                long channelId = channelOpt.get().getValue().get().asChannel().block().getId().asLong();
+                dudes = dudes.stream().filter(x -> x.getLocations().contains(channelId)).toList();
+            }
+
+            if (options.hasOption("ordering")) {
+                try {
+                    Ordering order = Ordering.valueOf(options.getOption("ordering").get().getValue().get().asString());
+                    switch (order) {
+                        case Id -> dudes.sort(Comparator.comparingLong(Dude::getId));
+                        case Alphabetical -> dudes.sort(Comparator.comparing(Dude::getName));
+                        case Type -> dudes.sort((o1, o2) -> {
+                            for (int i = 0; i < o1.getTypes().size() && i < o2.getTypes().size(); i++) {
+                                if (o1.getTypes().get(i) != o2.getTypes().get(i)) {
+                                    return o1.getTypes().get(i).compareTo(o2.getTypes().get(i));
+                                }
+                            }
+                            return Integer.compare(o1.getTypes().size(), o2.getTypes().size());
+                        });
+                    }
+                } catch (IllegalArgumentException ignored) { }
+            }
+
+            if (options.getOption("reverse").isPresent()) {
+                if (options.getOption("reverse").get().getValue().get().asBoolean()) {
+                    Collections.reverse(dudes);
+                }
+            }
+            if (options.getOption("artist").isPresent()) {
+                String name = options.getOption("artist").get().getValue().get().asString();
+                dudes = dudes.stream().filter(x -> x.getArtistName().equalsIgnoreCase(name)).toList();
+            }
+            if (options.getOption("hideowned").isPresent()) {
+                if (options.getOption("hideowned").get().getValue().get().asBoolean()) {
+                    UserProfile userProfile = userProfileService.getUserProfile(event.getInteraction().getUser().getId().asLong());
+                    var ownerNames = userProfile.getOwnedDudes().stream().map(Dude::getName).collect(Collectors.toSet());
+                    dudes.removeIf(x -> ownerNames.contains(x.getName()));
+                }
+            }
+
+            event.reply().withEmbeds(EmbedCreateSpec.builder()
+                    .title("Dudedex")
+                    .description("Loading...")
+                    .color(emojiUtils.getColor(ElementalType.Neutral))
+                    .build()).block();
+
+            Message message = event.getReply().block();
+            collectionUIManager.saveUI(message.getId().asLong(), CollectionUI.builder()
+                    .creatorId(event.getInteraction().getUser().getId().asLong())
+                    .uiTitle("Dudedex")
+                    .entries(dudes.stream()
+                            .map(x -> x.getFormattedId() + " - " + x.getName() + " " + x.getTypes().stream()
+                                    .map(emojiUtils::getEmojiString)
+                                    .collect(Collectors.joining(" ")))
+                            .toList())
+                    .build());
+
+            updateUserUI(message);
             return Mono.empty();
         }
     }
