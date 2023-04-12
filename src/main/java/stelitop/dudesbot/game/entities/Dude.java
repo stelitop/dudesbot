@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.common.value.qual.IntRange;
+import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
 import stelitop.dudesbot.game.enums.ElementalType;
 import stelitop.dudesbot.game.enums.Rarity;
@@ -148,7 +149,13 @@ public class Dude implements Comparable<Dude> {
      */
     @ElementCollection(fetch = FetchType.EAGER)
     @Singular
+    //@Getter(AccessLevel.NONE)
     private List<Long> locations;
+
+//    public List<Long> getLocations() {
+//        Hibernate.initialize(this.locations);
+//        return this.locations;
+//    }
 
     /**
      * The flavor text of the dude. Has no impact on gameplay.

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import stelitop.dudesbot.database.repositories.ItemRepository;
 import stelitop.dudesbot.database.services.ItemService;
+import stelitop.dudesbot.discord.utils.ColorUtils;
 import stelitop.dudesbot.discord.utils.EmojiUtils;
 import stelitop.dudesbot.game.enums.DudeStat;
 import stelitop.dudesbot.game.enums.ElementalType;
@@ -21,7 +22,7 @@ public class ItemInfoCommand implements ISlashCommand {
     @Autowired
     private ItemService itemService;
     @Autowired
-    private EmojiUtils emojiUtils;
+    private ColorUtils colorUtils;
 
     @Override
     public String[] getNames() {
@@ -42,12 +43,13 @@ public class ItemInfoCommand implements ISlashCommand {
         return event.reply()
                 .withEmbeds(EmbedCreateSpec.builder()
                         .title(item.getName())
-                        .color(emojiUtils.getColor(ElementalType.Neutral))
+                        .color(colorUtils.getColor(ElementalType.Neutral))
                         .addField("Collection Info",
-                                "Rarity: " + item.getRarity() +
-                                "\nLocations: " + (item.getLocations().isEmpty() ? "Everywhere" :
+                                "Locations: " + (item.getLocations().isEmpty() ? "None" :
                                         item.getLocations().stream().map(x -> "<#" + x + ">")
-                                                .collect(Collectors.joining(", "))), false)
+                                                .collect(Collectors.joining(", "))) +
+                                "\nRarity: " + item.getRarity() +
+                                "\nTotal Collected: " + item.getUsersThatOwn().size(), false)
                         .addField("Effect", item.getText() +
                                 (item.getFlavorText() == null ? "" : "\n\n*" + item.getFlavorText() + "*"), false)
                         .build());

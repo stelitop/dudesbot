@@ -36,15 +36,93 @@
     },
     {
       "name": "artist",
-      "description": "The artist for the dudes' art",
+      "description": "The artist for the dudes' art.",
       "type": 3,
       "required": false
     },
     {
       "name": "hideowned",
-      "description": "Whether owned dudes are hidden",
+      "description": "Whether owned dudes are hidden.",
       "type": 5,
       "required": false
+    },
+    {
+      "name": "type",
+      "description": "Only display dudes from this type.",
+      "type": 3,
+      "required": false,
+      "choices": [
+        {
+          "name": "Neutral",
+          "value": "Neutral"
+        },
+        {
+          "name": "Earth",
+          "value": "Earth"
+        },
+        {
+          "name": "Water",
+          "value": "Water"
+        },
+        {
+          "name": "Air",
+          "value": "Air"
+        },
+        {
+          "name": "Fire",
+          "value": "Fire"
+        },
+        {
+          "name": "Nature",
+          "value": "Nature"
+        },
+        {
+          "name": "Decay",
+          "value": "Decay"
+        },
+        {
+          "name": "Magic",
+          "value": "Magic"
+        },
+        {
+          "name": "Tech",
+          "value": "Tech"
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "description": "Which user's collection to use for some other options, such as hideowned.",
+      "type": 6,
+      "required": false
+    },
+    {
+      "name": "rarity",
+      "description": "Only display dudes from this rarity.",
+      "type": 3,
+      "required": false,
+      "choices": [
+        {
+          "name": "Common",
+          "value": "Common"
+        },
+        {
+          "name": "Rare",
+          "value": "Rare"
+        },
+        {
+          "name": "Epic",
+          "value": "Epic"
+        },
+        {
+          "name": "Legendary",
+          "value": "Legendary"
+        },
+        {
+          "name": "Mythic",
+          "value": "Mythic"
+        }
+      ]
     }
   ]
 }

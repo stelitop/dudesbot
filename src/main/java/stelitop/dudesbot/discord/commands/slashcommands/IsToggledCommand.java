@@ -31,11 +31,9 @@ public class IsToggledCommand implements ISlashCommand {
         }
         var profile = userProfileService.getUserProfile(user.getId().asLong());
         if (profile.isParticipating()) {
-            return event.reply()
-                    .withContent(user.getUsername() + " is currently opted in to the game. They will randomly collect Dudes and items when sending messages in this server.");
+            return event.reply(user.getUsername() + " is currently opted in to the game. They will randomly collect Dudes and items when sending messages in this server.");
         } else {
-            return event.reply()
-                    .withContent(user.getUsername() + " is currently opted out of the game. They will not collect Dudes or items when sending messages in this server.");
+            return event.reply(user.getUsername() + " is currently opted out of the game. They will not collect Dudes or items when sending messages in this server.");
         }
     }
 }

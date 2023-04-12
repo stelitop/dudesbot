@@ -140,15 +140,14 @@ public class UpdateDudeCommands {
             }
             var dude = dudeOpt.get();
             var channel = options.getOption("channel").get().getValue().get().asChannel().block().getId().asLong();
-
-            if (dude.getLocations().contains(channel)) {
-                dude.getLocations().remove(channel);
+            System.out.println(dude.getLocations().size());
+            if (dude.getLocations().stream().anyMatch(x -> x == channel)) {
+                dude.getLocations().removeIf(x -> x == channel);
             } else {
                 dude.getLocations().add(channel);
             }
-
-            dudeService.saveDude(dude);
-
+            System.out.println(dude.getLocations().size());
+            System.out.println("-----------------");
             dudeService.saveDude(dude);
             return event.reply("Successfully updated the locations")
                     .withEphemeral(true);

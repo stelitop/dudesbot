@@ -10,16 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.env.Environment;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import stelitop.dudesbot.common.utils.RandomUtils;
-import stelitop.dudesbot.database.repositories.DudeRepository;
-import stelitop.dudesbot.database.repositories.ItemRepository;
 import stelitop.dudesbot.database.services.DudeService;
 import stelitop.dudesbot.database.services.ItemService;
 import stelitop.dudesbot.database.services.UserProfileService;
 import stelitop.dudesbot.discord.enums.DiscordChannels;
+import stelitop.dudesbot.discord.utils.ColorUtils;
 import stelitop.dudesbot.discord.utils.EmojiUtils;
 import stelitop.dudesbot.game.entities.Dude;
 import stelitop.dudesbot.game.entities.Item;
@@ -28,12 +26,8 @@ import stelitop.dudesbot.game.enums.ElementalType;
 import stelitop.dudesbot.game.enums.Rarity;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Component
 public class DropsMessageListener implements ApplicationRunner {
@@ -56,6 +50,8 @@ public class DropsMessageListener implements ApplicationRunner {
     private Environment environment;
     @Autowired
     private GatewayDiscordClient gatewayDiscordClient;
+    @Autowired
+    private ColorUtils colorUtils;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -99,6 +95,17 @@ public class DropsMessageListener implements ApplicationRunner {
         }).subscribe();
     }
 
+    /**
+     * Rolls for an attempt to give the user a dude.
+     *
+     * @param profile The profile of the user.
+     * @param originalChannelId The id of the channel the message was sent in.
+     * @param notificationChannel The channel in which to send the drops message if
+     *                            a dude is successfully obtained.
+     * @return A message mono for the drops message in the specified channel if a
+     *         dude was successfully obtained. If there was no dude obtained, null
+     *         is returned.
+     */
     private Mono<Message> rollForDude(UserProfile profile, long originalChannelId, MessageChannel notificationChannel) {
 
         boolean devmode = Boolean.parseBoolean(environment.getProperty("devmode"));
@@ -116,7 +123,8 @@ public class DropsMessageListener implements ApplicationRunner {
                 .filter(x -> !ownedDudes.contains(x.getName()))
                 .filter(x -> x.getPreviousEvolutions() == null || x.getPreviousEvolutions().isEmpty() ||
                         x.getPreviousEvolutions().stream().anyMatch(ownedDudes::contains))
-                .filter(x -> x.getLocations().isEmpty() || x.getLocations().contains(originalChannelId) || devmode)
+                //.filter(x -> x.getLocations().isEmpty() || x.getLocations().contains(originalChannelId) || devmode)
+                .filter(x -> x.getLocations().contains(originalChannelId) || devmode)
                 .toList();
 
         Rarity rarity = randomUtils.pickWeightedRandomRarity();
@@ -138,11 +146,13 @@ public class DropsMessageListener implements ApplicationRunner {
         Dude newDude = possibleDudes.get(random.nextInt(possibleDudes.size()));
         profile.getOwnedDudes().add(newDude);
         String username = gatewayDiscordClient.getUserById(Snowflake.of(profile.getDiscordId())).block().getUsername();
+        String embedTitle = username + " found a " + newDude.getRarity().name().toLowerCase(Locale.ROOT) + " Dude!";
+        if (newDude.getRarity() == Rarity.Epic) embedTitle = username + " found an epic Dude!";
         return notificationChannel.createMessage(EmbedCreateSpec.builder()
-                .title(username + " found a Dude!")
-                .description(newDude.getName() + " has been added to your collection.")
+                .title(embedTitle)
+                .description(newDude.getName() + " has been added to their collection.")
                 .thumbnail(newDude.getArtLink())
-                .color(emojiUtils.getColor(ElementalType.Neutral))
+                .color(colorUtils.getColor(newDude.getTypes()))
                 .build());
     }
 
@@ -161,7 +171,8 @@ public class DropsMessageListener implements ApplicationRunner {
 
         List<Item> possibleItems = itemService.getAllItems().stream()
                 .filter(x -> !ownedItems.contains(x.getName()))
-                .filter(x -> x.getLocations().isEmpty() || x.getLocations().contains(originalChannelId) || devmode)
+                //.filter(x -> x.getLocations().isEmpty() || x.getLocations().contains(originalChannelId) || devmode)
+                .filter(x -> x.getLocations().contains(originalChannelId) || devmode)
                 .toList();
 
         Rarity rarity = randomUtils.pickWeightedRandomRarity();
@@ -183,10 +194,12 @@ public class DropsMessageListener implements ApplicationRunner {
         Item newItem = possibleItems.get(random.nextInt(possibleItems.size()));
         profile.getOwnedItems().add(newItem);
         String username = gatewayDiscordClient.getUserById(Snowflake.of(profile.getDiscordId())).block().getUsername();
+        String embedTitle = username + " found a " + newItem.getRarity().name().toLowerCase(Locale.ROOT) + " item!";
+        if (newItem.getRarity() == Rarity.Epic) embedTitle = username + " found an epic item!";
         return notificationChannel.createMessage(EmbedCreateSpec.builder()
-                .title(username + " found an item!")
-                .description(newItem.getName() + " has been added to your collection.")
-                .color(emojiUtils.getColor(ElementalType.Neutral))
+                .title(embedTitle)
+                .description(newItem.getName() + " has been added to their collection.")
+                .color(colorUtils.getColor(ElementalType.Neutral))
                 .build());
     }
 }

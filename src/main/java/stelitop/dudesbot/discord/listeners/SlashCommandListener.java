@@ -44,7 +44,7 @@ public class SlashCommandListener implements ApplicationRunner {
         ISlashCommand matchCommand = null;
         List<ApplicationCommandInteractionOption> commandOptions = null;
 
-        if (event.getCommandName().startsWith("dev")) {
+        if (event.getCommandName().startsWith("z_dev")) {
             long userId = event.getInteraction().getUser().getId().asLong();
             // TODO Move this to a separate class
             Set<Long> adminIds = Set.of(

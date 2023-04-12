@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import stelitop.dudesbot.database.services.DudeService;
+import stelitop.dudesbot.discord.utils.ColorUtils;
 import stelitop.dudesbot.discord.utils.EmojiUtils;
 import stelitop.dudesbot.game.entities.Dude;
 import stelitop.dudesbot.game.enums.DudeStat;
@@ -20,9 +21,10 @@ public class DudeInfoCommand implements ISlashCommand {
 
     @Autowired
     private DudeService dudeService;
-
     @Autowired
     private EmojiUtils emojiUtils;
+    @Autowired
+    private ColorUtils colorUtils;
 
     @Override
     public String[] getNames() {
@@ -77,7 +79,7 @@ public class DudeInfoCommand implements ISlashCommand {
                 .map(move -> move.getName() + ": " + move.getDescription())
                 .collect(Collectors.joining("\n"));
 
-        var locationsMsg = dude.getLocations().isEmpty() ? "Everywhere" : dude.getLocations()
+        var locationsMsg = dude.getLocations().isEmpty() ? "None" : dude.getLocations()
                 .stream()
                 .distinct()
                 .map(x -> "<#" + x + ">")
@@ -86,12 +88,11 @@ public class DudeInfoCommand implements ISlashCommand {
         var embed = EmbedCreateSpec.builder()
                 .title(dude.getFormattedId() + " - " + dude.getName())
                 .thumbnail(dude.getArtLink())
-                .color(dude.getTypes().isEmpty() ? Color.BLACK : Color.of(
-                        dude.getTypes().stream().map(emojiUtils::getColor)
-                        .mapToInt(Color::getRGB).sum() / dude.getTypes().size()))
+                .color(colorUtils.getColor(dude.getTypes()))
                 .addField("Collection Info",
-                        "Rarity: " + dude.getRarity() +
-                        "\nLocations: " + locationsMsg,
+                        "Locations: " + locationsMsg +
+                        "\nRarity: " + dude.getRarity() +
+                        "\nTotal Collected: " + dude.getUsersThatOwn().size(),
                         false)
                 .addField("Evolution Info",
                         "Stage: " + dude.getStage() +

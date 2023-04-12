@@ -19,12 +19,15 @@ import stelitop.dudesbot.database.services.UserProfileService;
 import stelitop.dudesbot.discord.listeners.IActionComponentListener;
 import stelitop.dudesbot.discord.ui.CollectionUI;
 import stelitop.dudesbot.discord.ui.CollectionUIManager;
+import stelitop.dudesbot.discord.utils.ColorUtils;
 import stelitop.dudesbot.discord.utils.EmojiUtils;
 import stelitop.dudesbot.game.entities.Dude;
 import stelitop.dudesbot.game.entities.Item;
 import stelitop.dudesbot.game.entities.UserProfile;
 import stelitop.dudesbot.game.enums.ElementalType;
+import stelitop.dudesbot.game.enums.Rarity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -47,6 +50,8 @@ public class CollectionCommands {
     private UserProfileService userProfileService;
     @Autowired
     private EmojiUtils emojiUtils;
+    @Autowired
+    private ColorUtils colorUtils;
     @Autowired
     private CollectionUIManager collectionUIManager;
 
@@ -71,7 +76,7 @@ public class CollectionCommands {
 
         var embed = EmbedCreateSpec.builder()
                 .title(ui.getUiTitle())
-                .color(emojiUtils.getColor(ElementalType.Neutral))
+                .color(colorUtils.getColor(ElementalType.Neutral))
                 .description("Total: " + ui.getEntries().size() + "\n\n" +
                         String.join("\n", ui.getEntriesAtCurrentPage()) +
                         "\n\nPage " + ui.getCurrentPage() + "/" + ui.getTotalPages())
@@ -137,7 +142,7 @@ public class CollectionCommands {
             event.reply().withEmbeds(EmbedCreateSpec.builder()
                     .title(user.getUsername() + "'s Dudes")
                     .description("Loading...")
-                    .color(emojiUtils.getColor(ElementalType.Neutral))
+                    .color(colorUtils.getColor(ElementalType.Neutral))
                     .build()).block();
 
             Message message = event.getReply().block();
@@ -199,7 +204,7 @@ public class CollectionCommands {
             event.reply().withEmbeds(EmbedCreateSpec.builder()
                     .title(user.getUsername() + "'s Items")
                     .description("Loading...")
-                    .color(emojiUtils.getColor(ElementalType.Neutral))
+                    .color(colorUtils.getColor(ElementalType.Neutral))
                     .build()).block();
 
             Message message = event.getReply().block();
@@ -306,13 +311,20 @@ public class CollectionCommands {
         public Mono<Void> handle(@NotNull ChatInputInteractionEvent event, SlashCommandOptions options) {
 
             List<Dude> dudes = dudeService.getAllDudes();
+            UserProfile userProfile;
+
+            if (options.getOption("user").isEmpty()) {
+                userProfile = userProfileService.getUserProfile(event.getInteraction().getUser().getId().asLong());
+            } else {
+                long newId = options.getOption("user").get().getValue().get().asUser().block().getId().asLong();
+                userProfile = userProfileService.getUserProfile(newId);
+            }
 
             var channelOpt = options.getOption("channel");
             if (channelOpt.isPresent()) {
                 long channelId = channelOpt.get().getValue().get().asChannel().block().getId().asLong();
-                dudes = dudes.stream().filter(x -> x.getLocations().contains(channelId)).toList();
+                dudes.removeIf(x -> !x.getLocations().contains(channelId));
             }
-
             if (options.hasOption("ordering")) {
                 try {
                     Ordering order = Ordering.valueOf(options.getOption("ordering").get().getValue().get().asString());
@@ -330,7 +342,6 @@ public class CollectionCommands {
                     }
                 } catch (IllegalArgumentException ignored) { }
             }
-
             if (options.getOption("reverse").isPresent()) {
                 if (options.getOption("reverse").get().getValue().get().asBoolean()) {
                     Collections.reverse(dudes);
@@ -338,20 +349,27 @@ public class CollectionCommands {
             }
             if (options.getOption("artist").isPresent()) {
                 String name = options.getOption("artist").get().getValue().get().asString();
-                dudes = dudes.stream().filter(x -> x.getArtistName().equalsIgnoreCase(name)).toList();
+                dudes.removeIf(x -> !x.getArtistName().equalsIgnoreCase(name));
             }
             if (options.getOption("hideowned").isPresent()) {
                 if (options.getOption("hideowned").get().getValue().get().asBoolean()) {
-                    UserProfile userProfile = userProfileService.getUserProfile(event.getInteraction().getUser().getId().asLong());
                     var ownerNames = userProfile.getOwnedDudes().stream().map(Dude::getName).collect(Collectors.toSet());
                     dudes.removeIf(x -> ownerNames.contains(x.getName()));
                 }
+            }
+            if (options.getOption("type").isPresent()) {
+                ElementalType elType = ElementalType.valueOf(options.getOption("type").get().getValue().get().asString());
+                dudes.removeIf(x -> !x.getTypes().contains(elType));
+            }
+            if (options.getOption("rarity").isPresent()) {
+                Rarity rarity = Rarity.valueOf(options.getOption("rarity").get().getValue().get().asString());
+                dudes.removeIf(x -> x.getRarity() != rarity);
             }
 
             event.reply().withEmbeds(EmbedCreateSpec.builder()
                     .title("Dudedex")
                     .description("Loading...")
-                    .color(emojiUtils.getColor(ElementalType.Neutral))
+                    .color(colorUtils.getColor(ElementalType.Neutral))
                     .build()).block();
 
             Message message = event.getReply().block();

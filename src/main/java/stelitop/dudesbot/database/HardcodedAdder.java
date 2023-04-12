@@ -29,6 +29,7 @@ public class HardcodedAdder implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        //System.out.println(dudeService.getDude(1).get().getLocations());
         //var x =dudeService.getDude(3);
         //System.out.println(x.get().getFlavourText());
         //addDudes();

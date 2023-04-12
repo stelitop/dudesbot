@@ -2,11 +2,11 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.3'
 	id 'io.spring.dependency-management' version '1.1.0'
-	id 'com.github.johnrengelman.shadow' version '7.1.1'
+	id 'jacoco'
 }
 
 group = 'stelitop'
-version = '1.0.0'
+version = '1.1.1'
 sourceCompatibility = '17'
 
 configurations {
@@ -36,6 +36,28 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	jacoco {
+		enabled = true
+		includes = ['stelitop.dudesbot.*']
+		excludes = []
+	}
+}
+
+jacocoTestCoverageVerification() {
+	dependsOn test
+	violationRules {
+		rule {
+			enabled = true
+			element = 'CLASS'
+			includes = ['stelitop.dudesbot.*']
+
+			limit {
+				counter = 'BRANCH'
+				value = 'COVEREDRATIO'
+				minimum = 0.1
+			}
+		}
+	}
 }
 
 task fatJar(type: Jar) {

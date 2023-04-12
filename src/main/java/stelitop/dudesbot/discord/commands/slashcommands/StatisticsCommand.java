@@ -1,4 +1,4 @@
-package stelitop.dudesbot.discord.commands.slashcommands.annotations;
+package stelitop.dudesbot.discord.commands.slashcommands;
 
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 import stelitop.dudesbot.database.services.UserProfileService;
 import stelitop.dudesbot.discord.commands.slashcommands.ISlashCommand;
 import stelitop.dudesbot.discord.commands.slashcommands.SlashCommandOptions;
+import stelitop.dudesbot.discord.utils.ColorUtils;
 import stelitop.dudesbot.discord.utils.EmojiUtils;
 import stelitop.dudesbot.game.entities.UserProfile;
 import stelitop.dudesbot.game.enums.ElementalType;
@@ -30,9 +31,9 @@ public class StatisticsCommand implements ISlashCommand {
     @Autowired
     private UserProfileService userProfileService;
     @Autowired
-    private EmojiUtils emojiUtils;
-    @Autowired
     private GatewayDiscordClient discordClient;
+    @Autowired
+    private ColorUtils colorUtils;
 
     @Override
     public String[] getNames() {
@@ -58,7 +59,7 @@ public class StatisticsCommand implements ISlashCommand {
 
         return event.reply().withEmbeds(EmbedCreateSpec.builder()
                 .title("Battle Dudes Statistics")
-                .color(emojiUtils.getColor(ElementalType.Neutral))
+                .color(colorUtils.getColor(ElementalType.Neutral))
                 .addField("General Statistics",
                         "Active Players: " + activePlayers +
                         (mostDudes == -1 ? "" : "\nBiggest collection (" + mostDudes + "): " + topDudesUsernames), false)

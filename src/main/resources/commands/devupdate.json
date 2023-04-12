@@ -116,6 +116,7 @@
               "name": "channel",
               "description": "The channel for the dude.",
               "type": 7,
+              "channel_types": [0],
               "required": true
             }
           ]
