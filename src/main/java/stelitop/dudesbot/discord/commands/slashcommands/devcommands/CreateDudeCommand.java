@@ -39,7 +39,7 @@ public class CreateDudeCommand implements ISlashCommand {
 
         Dude newDude = Dude.builder()
                 .name(name)
-                .id(dudeService.getAllDudes().stream().mapToLong(Dude::getId).max().getAsLong() + 1L)
+                .id(dudeService.getAllDudes().stream().mapToLong(Dude::getId).max().orElseGet(() -> 0) + 1L)
                 .stage(1)
                 .artistName("<Artist>")
                 .artLink("https://t3.ftcdn.net/jpg/03/35/13/14/240_F_335131435_DrHIQjlOKlu3GCXtpFkIG1v0cGgM9vJC.jpg")

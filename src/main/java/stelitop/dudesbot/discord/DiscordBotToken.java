@@ -9,4 +9,10 @@ public class DiscordBotToken {
      */
     @Getter
     private String token;
+
+    /**
+     * Discord ids of the admin users.
+     */
+    @Getter
+    private long[] adminUsers;
 }

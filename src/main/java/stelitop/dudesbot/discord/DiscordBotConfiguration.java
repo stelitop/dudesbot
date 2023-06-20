@@ -30,19 +30,16 @@ public class DiscordBotConfiguration {
     private ResourceLoader resourceLoader;
 
     /**
-     * Bean for the discord gateway client
+     * Bean for the discord bot token.
      *
-     * @return
-     * @throws IOException
+     * @return Token bean.
      */
     @Bean
-    public GatewayDiscordClient gatewayDiscordClient() throws IOException {
-
+    public DiscordBotToken discordBotToken() throws IOException {
+        DiscordBotToken token;
         ObjectMapper om = new ObjectMapper();
-
         PathMatchingResourcePatternResolver matcher = new PathMatchingResourcePatternResolver();
         boolean devmode = Boolean.parseBoolean(environment.getProperty("devmode"));
-        DiscordBotToken token;
         if (devmode) {
             token = om.readValue(resourceLoader.getResource("classpath:testbotconfig.json").getInputStream(), DiscordBotToken.class);
             //token = om.readValue(ResourceUtils.getFile("classpath*:testbotconfig.json"), DiscordBotToken.class);
@@ -52,6 +49,16 @@ public class DiscordBotConfiguration {
             token = om.readValue(resourceLoader.getResource("classpath:botconfig.json").getInputStream(), DiscordBotToken.class);
             //token = om.readValue(matcher.getResources("classpath:botconfig.json")[0].getFile(), DiscordBotToken.class);
         }
+        return token;
+    }
+
+    /**
+     * Bean for the discord gateway client.
+     *
+     * @return Gateway discord client bean.
+     */
+    @Bean
+    public GatewayDiscordClient gatewayDiscordClient(DiscordBotToken token){
         return DiscordClientBuilder.create(token.getToken()).build()
                 .gateway()
                 .setInitialPresence(ignore -> ClientPresence.online(ClientActivity.playing("Battle Dudes")))

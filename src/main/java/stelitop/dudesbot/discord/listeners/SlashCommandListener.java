@@ -11,13 +11,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+import stelitop.dudesbot.discord.DiscordBotToken;
 import stelitop.dudesbot.discord.commands.slashcommands.ISlashCommand;
 import stelitop.dudesbot.discord.commands.slashcommands.SlashCommandOptions;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class SlashCommandListener implements ApplicationRunner {
@@ -26,6 +25,8 @@ public class SlashCommandListener implements ApplicationRunner {
     private Collection<ISlashCommand> commands;
     @Autowired
     private GatewayDiscordClient client;
+    @Autowired
+    private DiscordBotToken token;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -47,10 +48,7 @@ public class SlashCommandListener implements ApplicationRunner {
         if (event.getCommandName().startsWith("z_dev")) {
             long userId = event.getInteraction().getUser().getId().asLong();
             // TODO Move this to a separate class
-            Set<Long> adminIds = Set.of(
-                    237264833433567233L,
-                    143170928623353856L
-            );
+            Set<Long> adminIds = Arrays.stream(token.getAdminUsers()).boxed().collect(Collectors.toSet());
             if (!adminIds.contains(userId)) {
                 return event.reply("You are not authorised to use this command!")
                         .withEphemeral(true);
